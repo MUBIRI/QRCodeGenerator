@@ -2,7 +2,7 @@
 
 """Contains the flask app"""
 from flask import Flask, request
-from helper import generate_qr_code 
+from models import helper 
 
 app = Flask(__name__)
 
@@ -16,5 +16,5 @@ def index():
 @app.route("/qr_code", methods=["POST"])
 def qr_code():
    data = request.get_json()
-   generate_qr_code(data)
+   helper.generate_qr_code(**data)
        
