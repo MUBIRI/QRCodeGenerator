@@ -3,6 +3,7 @@
 """Contains the flask app"""
 from flask import Flask, request
 from models import helper 
+# The helper file contains our generate uuid and qr code generator
 
 app = Flask(__name__)
 
@@ -15,6 +16,10 @@ def index():
 
 @app.route("/qr_code", methods=["POST"])
 def qr_code():
-   data = request.get_json()
-   helper.generate_qr_code(**data)
-       
+    try:
+        data = request.get_json()
+        filename = helper.generate_qr_code(**data)
+        return ({"message": "QR code generated", "filename": filename})
+    
+    except Exception as e:
+        return e
