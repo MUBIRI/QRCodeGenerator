@@ -1,6 +1,8 @@
 import uuid0
 import qrcode
 from pydantic import BaseModel, ValidationError
+from io import BytesIO
+
 # """Generates a UUID for an employee and creates a QR code encoding their name, 
 # employee ID, and generated UUID.
 
@@ -15,7 +17,7 @@ class User(BaseModel):
     personal_website : str = None
     phone_number : int
     email_address: str
-    employee_id: str
+    employee_id: str = None
     employee_uuid: str = None
     
 
@@ -31,23 +33,25 @@ def generate_qr_code(**data:dict) -> str:
     #TODO check what data type is data
     try:
         employee_information = User(**data)
-        employee_uuid = generate_uuid(employee_information)
-        employee_information.employee_uuid = employee_uuid
+        # employee_uuid = generate_uuid(employee_information)
+        # employee_information.employee_uuid = employee_uuid
+        #TODO change the make function to customizable
         img = qrcode.make(employee_information)
         filename = "{}_{}.png".format( employee_information.user_name, employee_information.employee_uuid) 
         img.save(filename)
-        return filename
+        return filename, employee_information
+    
     except ValidationError as e:
         return e
         
 
-info = {
-    "user_name": "Fred",
-    "personal_website" : 1,
-    "phone_number" : "07042802954",
-    "email_address": "jlsdjnpsoiq",
-    "employee_id": "123444"
+# info = {
+#     "user_name": "Fred",
+#     "personal_website" : 1,
+#     "phone_number" : "07042802954",
+#     "email_address": "jlsdjnpsoiq",
+#     "employee_id": "123444"
     
-}
+# }
 
-print(generate_qr_code(**info))
+# print(generate_qr_code(**info))
