@@ -1,6 +1,6 @@
 import uuid0
 import qrcode
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel,Field, ValidationError
 from io import BytesIO
 
 # """Generates a UUID for an employee and creates a QR code encoding their name, 
@@ -13,13 +13,18 @@ from io import BytesIO
 
 
 class User(BaseModel):
+    type: str = Field(..., description = "qr code data type")
+    data: str = Field(..., description="The data to be encoded in the QR code")
+
+
     user_name:str
     personal_website : str = None
     phone_number : int
     email_address: str
     employee_id: str = None
     employee_uuid: str = None
-    
+
+
 
 #TODO add encryption for sensitive data
 def generate_uuid(input_data:dict) -> str:

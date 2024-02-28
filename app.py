@@ -12,11 +12,13 @@ The '/save_to_db' endpoint takes a JSON payload and saves it to the database aft
 
 """Contains the flask app"""
 
-from flask import Flask, request, response
+from flask import Flask, request, Response
 from models.helper import User, generate_qr_code
 from upload import upload
 
 app = Flask(__name__)
+
+
 
 @app.route("/", methods=['GET'], strict_slashes=False)
 def home():
